@@ -5,7 +5,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 import java.lang.reflect.Field;
-import java.util.logging.Logger;
 import net.minecraft.network.protocol.game.PacketPlayOutLogin;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.network.ITextFilter;
@@ -27,10 +26,10 @@ public class LoginListener implements Listener {
         }
     }
 
-    private final Logger logger;
+    private final HardcoreHeartsPlugin plugin;
 
-    public LoginListener(final Logger logger) {
-        this.logger = logger;
+    public LoginListener(final HardcoreHeartsPlugin plugin) {
+        this.plugin = plugin;
     }
 
     @EventHandler
@@ -45,7 +44,7 @@ public class LoginListener implements Listener {
             );
         } catch (final NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
-            this.logger.severe("Failed to inject into player - Are you running an unsupported Java / Minecraft version?");
+            this.plugin.getLogger().severe("Failed to inject into player - Are you running an unsupported Java / Minecraft version?");
         }
     }
 
@@ -53,7 +52,7 @@ public class LoginListener implements Listener {
         final ChannelHandler handler = new ChannelOutboundHandlerAdapter() {
             @Override
             public void write(final ChannelHandlerContext ctx, final Object msg, final ChannelPromise promise) throws Exception {
-                if (msg instanceof PacketPlayOutLogin login) {
+                if (msg instanceof PacketPlayOutLogin login && LoginListener.this.plugin.isHeartsEnabled()) {
                     // Clone packet and change hardcore boolean
                     // Changing the field using reflection does not work for some reason,
                     // if you do that the client does not display any blocks

@@ -3,3 +3,9 @@ version: ${version}
 main: dev.cerus.hardcorehearts.HardcoreHeartsPlugin
 author: Cerus
 api-version: 1.18
+
+commands:
+  hardcorehearts:
+    permission: "hardcorehearts.command"
+    description: "Hardcore Hearts"
+    usage: "/hardcorehearts [toggle]"
