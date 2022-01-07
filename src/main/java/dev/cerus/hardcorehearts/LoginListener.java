@@ -20,7 +20,7 @@ public class LoginListener implements Listener {
 
     static {
         try {
-            FILTER_FIELD = EntityPlayer.class.getDeclaredField("cX");
+            FILTER_FIELD = EntityPlayer.class.getDeclaredField("cU");
             FILTER_FIELD.setAccessible(true);
         } catch (final NoSuchFieldException e) {
             e.printStackTrace();
