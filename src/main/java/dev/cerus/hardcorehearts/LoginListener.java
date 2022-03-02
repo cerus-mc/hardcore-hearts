@@ -53,7 +53,7 @@ public class LoginListener implements Listener {
         final ChannelHandler handler = new ChannelOutboundHandlerAdapter() {
             @Override
             public void write(final ChannelHandlerContext ctx, final Object msg, final ChannelPromise promise) throws Exception {
-                if (msg instanceof PacketPlayOutLogin login && LoginListener.this.plugin.isHeartsEnabled()) {
+                if (msg instanceof PacketPlayOutLogin login) {
                     // Clone packet and change hardcore boolean
                     // Changing the field using reflection does not work for some reason,
                     // if you do that the client does not display any blocks
@@ -61,7 +61,7 @@ public class LoginListener implements Listener {
                             login.e(),
                             login.f(),
                             login.c(),
-                            true,
+                            LoginListener.this.plugin.isHeartsEnabled(),
                             login.g(),
                             (IRegistryCustom.Dimension) login.h(),
                             login.i(),
