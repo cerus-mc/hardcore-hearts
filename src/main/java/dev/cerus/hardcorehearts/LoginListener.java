@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
 import net.minecraft.network.protocol.game.PacketPlayOutLogin;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.network.ITextFilter;
-import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -71,14 +71,15 @@ public class LoginListener implements Listener {
                             login.n(),
                             login.o(),
                             login.p(),
-                            login.q());
+                            login.q(),
+                            login.r());
                     super.write(ctx, fakeLogin, promise);
                 } else {
                     super.write(ctx, msg, promise);
                 }
             }
         };
-        handle.b.a.m.pipeline().addBefore("packet_handler", "hardcore_injector", handler);
+        handle.b.b.m.pipeline().addBefore("packet_handler", "hardcore_injector", handler);
     }
 
 }

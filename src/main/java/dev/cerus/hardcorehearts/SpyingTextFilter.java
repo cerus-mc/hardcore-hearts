@@ -2,6 +2,7 @@ package dev.cerus.hardcorehearts;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import net.minecraft.server.network.FilteredText;
 import net.minecraft.server.network.ITextFilter;
 
 /**
@@ -35,12 +36,12 @@ public class SpyingTextFilter implements ITextFilter {
     }
 
     @Override
-    public CompletableFuture<ITextFilter.a> a(final String s) {
+    public CompletableFuture<FilteredText<String>> a(final String s) {
         return this.backing.a(s);
     }
 
     @Override
-    public CompletableFuture<List<ITextFilter.a>> a(final List<String> list) {
+    public CompletableFuture<List<FilteredText<String>>> a(final List<String> list) {
         return this.backing.a(list);
     }
 
