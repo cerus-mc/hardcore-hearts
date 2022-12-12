@@ -35,13 +35,14 @@ public class SpyingTextFilter implements ITextFilter {
         this.backing.b();
     }
 
+
     @Override
-    public CompletableFuture<FilteredText<String>> a(final String s) {
+    public CompletableFuture<FilteredText> a(final String s) {
         return this.backing.a(s);
     }
 
     @Override
-    public CompletableFuture<List<FilteredText<String>>> a(final List<String> list) {
+    public CompletableFuture<List<FilteredText>> a(final List<String> list) {
         return this.backing.a(list);
     }
 
