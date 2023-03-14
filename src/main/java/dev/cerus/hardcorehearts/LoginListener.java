@@ -5,10 +5,11 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 import java.lang.reflect.Field;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.protocol.game.PacketPlayOutLogin;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.network.ITextFilter;
-import org.bukkit.craftbukkit.v1_19_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -19,7 +20,7 @@ public class LoginListener implements Listener {
 
     static {
         try {
-            FILTER_FIELD = EntityPlayer.class.getDeclaredField("cV");
+            FILTER_FIELD = EntityPlayer.class.getDeclaredField("cR");
             FILTER_FIELD.setAccessible(true);
         } catch (final NoSuchFieldException e) {
             e.printStackTrace();
@@ -56,7 +57,7 @@ public class LoginListener implements Listener {
                     // Clone packet and change hardcore boolean
                     // Changing the field using reflection does not work for some reason,
                     // if you do that the client does not display any blocks
-                    final PacketPlayOutLogin fakeLogin = new PacketPlayOutLogin(login.b(),
+                    final PacketPlayOutLogin fakeLogin = new PacketPlayOutLogin(login.a(),
                             true,
                             login.d(),
                             login.e(),
@@ -79,7 +80,16 @@ public class LoginListener implements Listener {
                 }
             }
         };
-        handle.b.b.m.pipeline().addBefore("packet_handler", "hardcore_injector", handler);
+
+        final NetworkManager netMan;
+        try {
+            final Field netManField = handle.b.getClass().getDeclaredField("h");
+            netManField.setAccessible(true);
+            netMan = (NetworkManager) netManField.get(handle.b);
+        } catch (final NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        netMan.m.pipeline().addBefore("packet_handler", "hardcore_injector", handler);
     }
 
 }
