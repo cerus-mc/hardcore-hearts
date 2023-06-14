@@ -9,7 +9,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.protocol.game.PacketPlayOutLogin;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.network.ITextFilter;
-import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -20,7 +20,7 @@ public class LoginListener implements Listener {
 
     static {
         try {
-            FILTER_FIELD = EntityPlayer.class.getDeclaredField("cR");
+            FILTER_FIELD = EntityPlayer.class.getDeclaredField("cS");
             FILTER_FIELD.setAccessible(true);
         } catch (final NoSuchFieldException e) {
             e.printStackTrace();
@@ -53,7 +53,7 @@ public class LoginListener implements Listener {
         final ChannelHandler handler = new ChannelOutboundHandlerAdapter() {
             @Override
             public void write(final ChannelHandlerContext ctx, final Object msg, final ChannelPromise promise) throws Exception {
-                if (msg instanceof PacketPlayOutLogin login && LoginListener.this.plugin.isHeartsEnabled()) {
+                if (msg instanceof final PacketPlayOutLogin login && LoginListener.this.plugin.isHeartsEnabled()) {
                     // Clone packet and change hardcore boolean
                     // Changing the field using reflection does not work for some reason,
                     // if you do that the client does not display any blocks
@@ -73,7 +73,8 @@ public class LoginListener implements Listener {
                             login.o(),
                             login.p(),
                             login.q(),
-                            login.r());
+                            login.r(),
+                            login.s());
                     super.write(ctx, fakeLogin, promise);
                 } else {
                     super.write(ctx, msg, promise);
@@ -83,9 +84,9 @@ public class LoginListener implements Listener {
 
         final NetworkManager netMan;
         try {
-            final Field netManField = handle.b.getClass().getDeclaredField("h");
+            final Field netManField = handle.c.getClass().getDeclaredField("h");
             netManField.setAccessible(true);
-            netMan = (NetworkManager) netManField.get(handle.b);
+            netMan = (NetworkManager) netManField.get(handle.c);
         } catch (final NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }

@@ -16,7 +16,7 @@ This plugin will trick your Minecraft client into displaying the hardcore hearts
 
 (Checkout specific version branches for other versions)
 
-- Spigot 1.19.4
+- Spigot 1.20(.1)
 - Java 17
 
 ## Incompatibilities
