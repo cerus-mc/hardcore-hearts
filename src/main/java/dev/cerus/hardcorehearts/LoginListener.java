@@ -9,7 +9,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.protocol.game.PacketPlayOutLogin;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.network.ITextFilter;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R2.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -20,7 +20,7 @@ public class LoginListener implements Listener {
 
     static {
         try {
-            FILTER_FIELD = EntityPlayer.class.getDeclaredField("cS");
+            FILTER_FIELD = EntityPlayer.class.getDeclaredField("cW");
             FILTER_FIELD.setAccessible(true);
         } catch (final NoSuchFieldException e) {
             e.printStackTrace();
@@ -59,7 +59,6 @@ public class LoginListener implements Listener {
                     // if you do that the client does not display any blocks
                     final PacketPlayOutLogin fakeLogin = new PacketPlayOutLogin(login.a(),
                             true,
-                            login.d(),
                             login.e(),
                             login.f(),
                             login.g(),
@@ -67,14 +66,7 @@ public class LoginListener implements Listener {
                             login.i(),
                             login.j(),
                             login.k(),
-                            login.l(),
-                            login.m(),
-                            login.n(),
-                            login.o(),
-                            login.p(),
-                            login.q(),
-                            login.r(),
-                            login.s());
+                            login.l());
                     super.write(ctx, fakeLogin, promise);
                 } else {
                     super.write(ctx, msg, promise);
@@ -84,13 +76,13 @@ public class LoginListener implements Listener {
 
         final NetworkManager netMan;
         try {
-            final Field netManField = handle.c.getClass().getDeclaredField("h");
+            final Field netManField = handle.c.getClass().getSuperclass().getDeclaredField("c");
             netManField.setAccessible(true);
             netMan = (NetworkManager) netManField.get(handle.c);
         } catch (final NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        netMan.m.pipeline().addBefore("packet_handler", "hardcore_injector", handler);
+        netMan.n.pipeline().addBefore("packet_handler", "hardcore_injector", handler);
     }
 
 }
