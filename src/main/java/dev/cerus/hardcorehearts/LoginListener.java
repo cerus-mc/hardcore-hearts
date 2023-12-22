@@ -9,7 +9,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.protocol.game.PacketPlayOutLogin;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.network.ITextFilter;
-import org.bukkit.craftbukkit.v1_20_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -20,7 +20,7 @@ public class LoginListener implements Listener {
 
     static {
         try {
-            FILTER_FIELD = EntityPlayer.class.getDeclaredField("cW");
+            FILTER_FIELD = EntityPlayer.class.getDeclaredField("cY");
             FILTER_FIELD.setAccessible(true);
         } catch (final NoSuchFieldException e) {
             e.printStackTrace();
