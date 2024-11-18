@@ -85,9 +85,9 @@ public class LoginListener implements Listener {
 
         final NetworkManager netMan;
         try {
-            final Field netManField = handle.c.getClass().getSuperclass().getDeclaredField("e");
+            final Field netManField = handle.f.getClass().getSuperclass().getDeclaredField("e");
             netManField.setAccessible(true);
-            netMan = (NetworkManager) netManField.get(handle.c);
+            netMan = (NetworkManager) netManField.get(handle.f);
         } catch (final NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
