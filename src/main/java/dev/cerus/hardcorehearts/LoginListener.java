@@ -85,13 +85,13 @@ public class LoginListener implements Listener {
 
         final NetworkManager netMan;
         try {
-            final Field netManField = handle.f.getClass().getSuperclass().getDeclaredField("e");
+            final Field netManField = handle.g.getClass().getSuperclass().getDeclaredField("e");
             netManField.setAccessible(true);
-            netMan = (NetworkManager) netManField.get(handle.f);
+            netMan = (NetworkManager) netManField.get(handle.g);
         } catch (final NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        netMan.n.pipeline().addBefore("packet_handler", "hardcore_injector", handler);
+        netMan.k.pipeline().addBefore("packet_handler", "hardcore_injector", handler);
     }
 
 }
